@@ -212,7 +212,7 @@ def lines_intersect(line1, line2):
     a, b, c, d = line1[0], line1[1], line2[0], line2[1]
     return ccw(a, c, d) != ccw(b, c, d) and ccw(a, b, c) != ccw(a, b, d)
 
-def visualize_vision(observation_vehicle, block_lines, viewed_veh):
+def visualize_vision(observation_vehicle, block_lines, viewed_veh, viewed_ped):
 
     plt.axes()
     plt.clf()
@@ -241,6 +241,10 @@ def visualize_vision(observation_vehicle, block_lines, viewed_veh):
         # plot vehicle position (SUMO defines position to be center of hood)
         plt.scatter(x, y, marker='s', s=2)
 
+    for ped_id in viewed_ped:
+        x, y = viewed_ped[ped_id]['xy']
+        plt.scatter(x, y, marker='*', c='b')
+
     # plot blocking lines
     for line in block_lines.values():
         a, b = line[0], line[1]
@@ -251,8 +255,8 @@ def visualize_vision(observation_vehicle, block_lines, viewed_veh):
     plt.axis('equal')
     axes = plt.gca()
     x, y = observation_vehicle['xy']
-    axes.set_xlim([x - 30, x + 30])
-    axes.set_ylim([y - 30, y + 50])
+    axes.set_xlim([x - 50, x + 50])
+    axes.set_ylim([y - 50, y + 50])
 
     plt.draw()
     plt.pause(0.001)
